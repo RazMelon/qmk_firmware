@@ -30,5 +30,6 @@
     },
     "clangd.arguments": [
         "--header-insertion=never"
-    ]
+    ],
+    "clangd.path": "c:\\Users\\Gryffin\\AppData\\Roaming\\Code\\User\\globalStorage\\llvm-vs-code-extensions.vscode-clangd\\install\\16.0.2\\clangd_16.0.2\\bin\\clangd.exe"
 }
