@@ -5,7 +5,30 @@
 // bool is_alt_tab_active = false;
 // uint16_t alt_gui_timer = 0;
 
-// hey there! this is in the linux machine's dev branch of my qmk userspace!
+/*
+Linux
+
+	layer 0 home
+keys: ws1 ws2 ws3 ws4
+encoder: move workspaces
+layer key: tap = layer 1 hold = shift
+
+	Layer 1
+keys: trans
+encoder: ctrl tab/ctrl shift tab
+layer key:
+
+	Layer 2
+keys: trans
+encoder: scroll up n down
+layer key:
+
+	Layer 3 media
+keys: playpause, prev, next, idk?
+encoder: volume
+layer key: play/pause
+encoder switch - home layer
+*/
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* 0
      * ┌───┬───┬───────┐
@@ -15,10 +38,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───┴───┴───────┘
      */
     [0] = LAYOUT_ortho_2x3(
-        (LCTL(KC_Z)),    (LCTL(LSFT(KC_Z))),    KC_8,
-        (LCTL(KC_X)),    (LCTL(KC_C)),    (LCTL(KC_V))
+        (LGUI(KC_1)),    (LGUI(KC_2)),    KC_ESCAPE,
+        (LGUI(KC_3)),    (LGUI(KC_4)),    TG(1)
     ),
-    /* sel
+    /* 1
      * ┌─────┬─────┬─────┐
      * │tg(1)│tg(2)│ ENC │
      * ├─────┼─────┼─────┤
@@ -26,8 +49,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └─────┴─────┴─────┘
      */
     [1] = LAYOUT_ortho_2x3(
-        KC_5,    KC_6,    KC_MUTE,
-        KC_7,    KC_8,    TG(0)
+        KC_TRANS,    KC_TRANS,    TG(0),
+        KC_TRANS,    KC_TRANS,    TG(2)
+    ),
+        /* 2
+     * ┌─────┬─────┬─────┐
+     * │tg(1)│tg(2)│ ENC │
+     * ├─────┼─────┼─────┤
+     * │ tg(3│tg(4)│tg(0)│
+     * └─────┴─────┴─────┘
+     */
+    [2] = LAYOUT_ortho_2x3(
+        KC_5,    KC_6,    TG(0)
+        KC_7,    KC_8,
+    ),
+        /* 3
+     * ┌─────┬─────┬─────┐
+     * │tg(1)│tg(2)│ ENC │
+     * ├─────┼─────┼─────┤
+     * │ tg(3│tg(4)│tg(0)│
+     * └─────┴─────┴─────┘
+     */
+    [3] = LAYOUT_ortho_2x3(
+        (LALT(KC_TAB)),    (LCTL(KC_TAB)),    TG(0)
+        KC_MEDIA_PREV_TRACK,    KC_MEDIA_NEXT_TRACK, KC_MEDIA_PLAY_PAUSE
     ),
 };
 
@@ -66,3 +111,51 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 //     return true;
 // }
 // #endif
+
+/*
+Linux
+
+	layer 0 home
+keys: ws1 ws2 ws3 ws4
+encoder: move workspaces
+layer key: tap = layer 1 hold = shift
+
+	Layer 1
+keys: trans
+encoder: ctrl tab/ctrl shift tab
+layer key:
+
+	Layer 2
+keys: trans
+encoder: scroll up n down
+layer key:
+
+	Layer 3 media
+keys: playpause, prev, next, idk?
+encoder: volume
+layer key: go to home
+*/
+
+
+/*
+features I want
+windows
+
+windows
+
+	layer 0
+keys:
+encoder: alt tab
+layer key:
+
+	Layer 1
+keys:
+encoder: ctrl tab
+layer key:
+
+	Layer 2
+keys:
+encoder:
+layer key:
+
+*/
