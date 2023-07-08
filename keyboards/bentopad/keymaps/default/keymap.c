@@ -5,7 +5,7 @@
 // bool is_alt_tab_active = false;
 // uint16_t alt_gui_timer = 0;
 
-
+// hey there! this is in the linux machine's dev branch of my qmk userspace!
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* 0
      * ┌───┬───┬───────┐
