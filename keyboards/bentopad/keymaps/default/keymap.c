@@ -20,8 +20,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───┴───┴───────┘
      */
     [_BASE] = LAYOUT_ortho_2x3(
-        (LGUI(KC_1)),    (LGUI(KC_2)),    KC_MUTE,
-        (LGUI(KC_3)),    (LGUI(KC_4)),    MO()//FIX THIS SO THAT IT TOGGLES SHIFT HOLD AND NAV PRESS
+        (LGUI(KC_1)),    (LGUI(KC_2)),    TG(_NAV),
+        (LGUI(KC_3)),    (LGUI(KC_4)),    KC_LSFT
     ),
     /* _NAV
      * ┌─────┬─────┬─────┐
@@ -31,8 +31,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └─────┴─────┴─────┘
      */
     [_NAV] = LAYOUT_ortho_2x3(
-        KC_5,    KC_6,    KC_MUTE,
-        KC_7,    KC_8,    TG(_ADJUST)
+        KC_5,    KC_6,    TG(_ADJUST),
+        KC_7,    KC_8,    KC_2
     ),
         /* _ADJUST
      * ┌─────┬─────┬─────┐
@@ -42,8 +42,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └─────┴─────┴─────┘
      */
     [_ADJUST] = LAYOUT_ortho_2x3(
-        KC_5,    KC_6,    KC_MUTE,
-        KC_7,    KC_8,    TG(0)
+        KC_9,    KC_0,    TO(_BASE),
+        KC_1,    KC_2,    TO(_BASE)
     ),
 };
 
@@ -51,18 +51,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
-        if(get_highest_layer(layer_state|default_layer_state) == _BASE) {
+        if (get_highest_layer(layer_state|default_layer_state) == _BASE) {
             if (clockwise) {
-                tap_code(KC_VOLU);
+                tap_code16(LGUI(KC_RIGHT));
             } else {
-                tap_code16(KC_VOLD);
+                tap_code16(LGUI(KC_LEFT));
             }
-        }
-    } else if (get_highest_layer(layer_state|default_layer_state) == _NAV) {
-        if (clockwise) {
-            tap_code16(LGUI(KC_RIGHT));
-        } else {
-            tap_code16(LGUI(KC_LEFT));
+        } else if (get_highest_layer(layer_state|default_layer_state) == _NAV) {
+            if (clockwise) {
+                tap_code16(LCTL(KC_TAB));
+            } else {
+                tap_code16(LCTL(LSFT(KC_TAB)));
+            }
+        } else if (get_highest_layer(layer_state|default_layer_state) == _ADJUST) {
+            if (clockwise) {
+                tap_code(KC_MS_WH_DOWN);
+            } else {
+                tap_code(KC_MS_WH_UP);
+            }
         }
     }
     return true;
