@@ -2,30 +2,46 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
-// bool is_alt_tab_active = false;
-// uint16_t alt_gui_timer = 0;
+bool is_alt_tab_active = false;
+uint16_t alt_gui_timer = 0;
 
+enum layer_names {
+    _BASE,
+    _NAV,
+    _ADJUST
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    /* 0
+    /* _BASE
      * ┌───┬───┬───────┐
      * │ 1 │ 2 │encoder│
      * ├───┼───┼───────┤
      * │ 3 │ 4 │ mo(1) │
      * └───┴───┴───────┘
      */
-    [0] = LAYOUT_ortho_2x3(
-        (LCTL(KC_Z)),    (LCTL(LSFT(KC_Z))),    KC_8,
-        (LCTL(KC_X)),    (LCTL(KC_C)),    (LCTL(KC_V))
+    [_BASE] = LAYOUT_ortho_2x3(
+        (LGUI(KC_1)),    (LGUI(KC_2)),    KC_MUTE,
+        (LGUI(KC_3)),    (LGUI(KC_4)),    MO()//FIX THIS SO THAT IT TOGGLES SHIFT HOLD AND NAV PRESS
     ),
-    /* sel
+    /* _NAV
      * ┌─────┬─────┬─────┐
      * │tg(1)│tg(2)│ ENC │
      * ├─────┼─────┼─────┤
      * │ tg(3│tg(4)│tg(0)│
      * └─────┴─────┴─────┘
      */
-    [1] = LAYOUT_ortho_2x3(
+    [_NAV] = LAYOUT_ortho_2x3(
+        KC_5,    KC_6,    KC_MUTE,
+        KC_7,    KC_8,    TG(_ADJUST)
+    ),
+        /* _ADJUST
+     * ┌─────┬─────┬─────┐
+     * │tg(1)│tg(2)│ ENC │
+     * ├─────┼─────┼─────┤
+     * │ tg(3│tg(4)│tg(0)│
+     * └─────┴─────┴─────┘
+     */
+    [_ADJUST] = LAYOUT_ortho_2x3(
         KC_5,    KC_6,    KC_MUTE,
         KC_7,    KC_8,    TG(0)
     ),
@@ -35,6 +51,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
+        if(get_highest_layer(layer_state|default_layer_state) == _BASE) {
+            if (clockwise) {
+                tap_code(KC_VOLU);
+            } else {
+                tap_code16(KC_VOLD);
+            }
+        }
+    } else if (get_highest_layer(layer_state|default_layer_state) == _NAV) {
         if (clockwise) {
             tap_code16(LGUI(KC_RIGHT));
         } else {
