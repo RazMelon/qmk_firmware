@@ -49,8 +49,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └─────┴─────┴─────┘
      */
     [1] = LAYOUT_ortho_2x3(
-        KC_TRANS,    KC_TRANS,    TG(0),
-        KC_TRANS,    KC_TRANS,    TG(2)
+        KC_TRNS,    KC_TRNS,    TG(0),
+        KC_TRNS,    KC_TRNS,    TG(2)
     ),
         /* 2
      * ┌─────┬─────┬─────┐
@@ -60,8 +60,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └─────┴─────┴─────┘
      */
     [2] = LAYOUT_ortho_2x3(
-        KC_5,    KC_6,    TG(0)
-        KC_7,    KC_8,
+        KC_5,    KC_6,    TG(0),
+        KC_7,    KC_8,    KC_ESCAPE
     ),
         /* 3
      * ┌─────┬─────┬─────┐
@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └─────┴─────┴─────┘
      */
     [3] = LAYOUT_ortho_2x3(
-        (LALT(KC_TAB)),    (LCTL(KC_TAB)),    TG(0)
+        (LALT(KC_TAB)),    (LCTL(KC_TAB)),    TG(0),
         KC_MEDIA_PREV_TRACK,    KC_MEDIA_NEXT_TRACK, KC_MEDIA_PLAY_PAUSE
     ),
 };
@@ -80,10 +80,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
-        if (clockwise) {
-            tap_code16(LGUI(KC_RIGHT));
-        } else {
-            tap_code16(LGUI(KC_LEFT));
+        if(get_highest_layer(layer_state|default_layer_state) == 0){
+            if (clockwise) {
+                tap_code16(LGUI(KC_RIGHT));
+            } else {
+                tap_code16(LGUI(KC_LEFT));
+            }
+        } else if(get_highest_layer(layer_state|default_layer_state) == 1){
+            if (clockwise) {
+                tap_code16(LGUI(KC_RIGHT));
+            } else {
+                tap_code16(LGUI(KC_LEFT));
+            }
+        } else if(get_highest_layer(layer_state|default_layer_state) == 2) {
+            if (clockwise) {
+                tap_code16(LGUI(KC_RIGHT));
+            } else {
+                tap_code16(LGUI(KC_LEFT));
+            }
+        } else if(get_highest_layer(layer_state|default_layer_state) == 3) {
+            if (clockwise) {
+                tap_code16(LGUI(KC_RIGHT));
+            } else {
+                tap_code16(LGUI(KC_LEFT));
+            }
         }
     }
     return true;
